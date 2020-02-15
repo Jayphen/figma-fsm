@@ -1,0 +1,15 @@
+body,
+input,
+button {
+  font-family: "Source Sans Pro", "Helvetica", "sans-serif";
+}
+
+label {
+  display: block;
+  margin-top: 1em;
+}
+
+form button {
+  display: block;
+  margin-top: 1em;
+}
