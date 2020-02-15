@@ -1,0 +1,8 @@
+{
+  "name": "xstate-import",
+  "id": "810523537962959811",
+  "api": "1.0.0",
+  "main": "dist/figma.js",
+  "ui": "dist/ui.html"
+}
+

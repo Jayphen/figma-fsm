@@ -1,0 +1,22 @@
+{
+  "name": "xstate-import",
+  "version": "0.0.1",
+  "description": "Create artboards from discrete states",
+  "main": "figma.js",
+  "author": "Jayphen",
+  "license": "MIT",
+  "dependencies": {
+    "@types/react": "^16.9.19",
+    "@types/react-dom": "^16.9.5",
+    "css-loader": "^3.4.2",
+    "html-webpack-inline-source-plugin": "^0.0.10",
+    "html-webpack-plugin": "^3.2.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "style-loader": "^1.1.3",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
+  }
+}
