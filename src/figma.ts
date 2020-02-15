@@ -26,7 +26,7 @@ figma.ui.onmessage = async msg => {
 
     const spacing = valueOrOne(msg.spacing);
 
-    const frames = createArtboards(value.states, spacing, {
+    const frames = await createArtboards(value.states, spacing, {
       prefix: MACHINE_NAME
     });
 
@@ -50,28 +50,43 @@ function valueOrOne(val: string) {
   return num;
 }
 
-function createArtboards(
+async function createArtboards(
   states: { [state: string]: any },
   spacing: number,
   opts: { prefix: string }
 ) {
   const frames: FrameNode[] = [];
 
-  // const state = Object.keys(msg.value.states);
+  const allStates = Object.keys(states);
 
-  const possibleStates = Object.keys(states);
-
-  for (let i = 0; i < possibleStates.length; i++) {
+  for (let i = 0; i < allStates.length; i++) {
     const frame = figma.createFrame();
 
     frame.x = i * (spacing + frame.width);
 
-    frame.name = `${opts.prefix} - ${possibleStates[i]}`;
+    frame.name = `${opts.prefix} - ${allStates[i]}`;
+
+    const events = await printEvents(states[allStates[i]]);
+    events && frame.appendChild(events);
 
     figma.currentPage.appendChild(frame);
     frames.push(frame);
   }
   return frames;
+}
+
+async function printEvents(state: any) {
+  // no events here
+  if (!state.on) return null;
+
+  const events = Object.keys(state.on);
+
+  await figma.loadFontAsync({ family: "Roboto", style: "Regular" });
+
+  const text = figma.createText();
+  text.characters = events.join(" / ");
+
+  return text;
 }
 
 function createAndSwitchToPage() {
