@@ -1,22 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { render } from "react-dom";
+import "./style.css";
 
 function App() {
   const [state, setState] = useState({ count: 0, spacing: 0 });
 
   function handleChange(e: React.FormEvent<HTMLInputElement>) {
     const name = e.currentTarget.name;
+    const value = e.currentTarget.value;
 
-    setState(s => ({ ...s, [name]: parseInt(e.currentTarget.value, 10) }));
+    setState(s => ({ ...s, [name]: value }));
   }
 
   function handleSubmit() {
+    const { count, spacing } = state;
+
     parent.postMessage(
       {
         pluginMessage: {
           type: "create-rectangles",
-          count: state.count,
-          spacing: state.spacing
+          count,
+          spacing
         }
       },
       "*"

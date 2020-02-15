@@ -15,14 +15,11 @@ figma.ui.onmessage = msg => {
   // One way of distinguishing between different types of messages sent from
   // your HTML page is to use an object with a "type" property like this.
   if (msg.type === "create-rectangles") {
-    const nodes: SceneNode[] = [];
-    for (let i = 0; i < msg.count; i++) {
-      const rect = figma.createRectangle();
-      rect.x = i * (msg.spacing + rect.width);
-      rect.fills = [{ type: "SOLID", color: { r: 1, g: 0.5, b: 0 } }];
-      figma.currentPage.appendChild(rect);
-      nodes.push(rect);
-    }
+    const count = valueOrOne(msg.count);
+    const spacing = valueOrOne(msg.spacing);
+
+    const nodes = createRectangles(count, spacing);
+
     const group = figma.group(nodes, figma.currentPage, 0);
     figma.currentPage.selection = [group];
     figma.viewport.scrollAndZoomIntoView(nodes);
@@ -32,3 +29,25 @@ figma.ui.onmessage = msg => {
   // keep running, which shows the cancel button at the bottom of the screen.
   figma.closePlugin();
 };
+
+function valueOrOne(val: string) {
+  const num = parseInt(val, 10);
+
+  if (num < 1) {
+    return 1;
+  }
+
+  return num;
+}
+
+function createRectangles(count: number, spacing: number) {
+  const nodes: SceneNode[] = [];
+  for (let i = 0; i < count; i++) {
+    const rect = figma.createRectangle();
+    rect.x = i * (spacing + rect.width);
+    rect.fills = [{ type: "SOLID", color: { r: 1, g: 0.5, b: 0 } }];
+    figma.currentPage.appendChild(rect);
+    nodes.push(rect);
+  }
+  return nodes;
+}
