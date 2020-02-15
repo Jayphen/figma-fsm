@@ -2,6 +2,7 @@ body,
 input,
 button {
   font-family: "Source Sans Pro", "Helvetica", "sans-serif";
+  padding: 0 1em;
 }
 
 label {
@@ -9,7 +10,38 @@ label {
   margin-top: 1em;
 }
 
+#app {
+  height: 100%;
+  display: grid;
+  grid-template-rows: min-content 1fr;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
 form button {
   display: block;
   margin-top: 1em;
+  width: 100%;
+  background: #ff7262;
+  color: white;
+  font-weight: 500;
+  font-size: 1em;
+  padding: 1em;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 0;
+}
+
+textarea {
+  width: 100%;
+  margin-top: 1em;
+  padding: 0 1em;
+  min-height: 10em;
+  background: #eaf1f5;
+  border: 1px solid #78b8df;
+  border-radius: 6px;
+  height: 100%;
 }

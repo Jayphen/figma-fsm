@@ -50,14 +50,59 @@ function valueOrOne(val: string) {
   return num;
 }
 
-function createRectangles(count: number, spacing: number) {
-  const nodes: SceneNode[] = [];
-  for (let i = 0; i < count; i++) {
-    const rect = figma.createRectangle();
-    rect.x = i * (spacing + rect.width);
-    rect.fills = [{ type: "SOLID", color: { r: 1, g: 0.5, b: 0 } }];
-    figma.currentPage.appendChild(rect);
-    nodes.push(rect);
+function createArtboards(
+  states: { [state: string]: any },
+  spacing: number,
+  opts: { prefix: string }
+) {
+  const frames: FrameNode[] = [];
+
+  // const state = Object.keys(msg.value.states);
+
+  const possibleStates = Object.keys(states);
+
+  for (let i = 0; i < possibleStates.length; i++) {
+    const frame = figma.createFrame();
+
+    frame.x = i * (spacing + frame.width);
+
+    frame.name = `${opts.prefix} - ${possibleStates[i]}`;
+
+    figma.currentPage.appendChild(frame);
+    frames.push(frame);
   }
-  return nodes;
+  return frames;
+}
+
+function createAndSwitchToPage() {
+  const newPage = figma.createPage();
+  const document = figma.root;
+  document.appendChild(newPage);
+
+  figma.currentPage = newPage;
+}
+
+async function createDebugArtboard(value: any) {
+  const frame = figma.createFrame();
+
+  frame.y = frame.height + frame.height / 2;
+
+  frame.name = "DEBUG";
+
+  console.log("loading menlo");
+
+  await figma.loadFontAsync({ family: "Menlo", style: "Regular" });
+
+  console.log("loaded menlo");
+
+  const text = figma.createText();
+  text.fontName = { style: "Regular", family: "Menlo" };
+  text.characters = JSON.stringify(value, null, 4);
+
+  frame.appendChild(text);
+  frame.resize(text.width + 16, text.height);
+
+  figma.currentPage.appendChild(frame);
+
+  return frame;
 }
